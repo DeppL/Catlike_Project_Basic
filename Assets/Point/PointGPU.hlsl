@@ -41,8 +41,9 @@
 		Out = In;
 		FractalColor = GetFractalColor();
 	}
-	void ShaderGraphFunction_half (half3 In, out half3 Out, out float4 FractalColor)
+	void ShaderGraphFunction_half (half3 In, out half3 Out, out half4 FractalColor)
 	{
 		Out = In;
 		FractalColor = GetFractalColor();
 	}
+
