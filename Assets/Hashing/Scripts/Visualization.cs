@@ -24,7 +24,7 @@ public abstract class Visualization : MonoBehaviour
     [SerializeField] Material material;
     [SerializeField] Shape shape;
     [SerializeField, Range(0.1f, 10f)] float instanceScale = 2f;
-    [SerializeField, Range(1, 512)] int resolution = 16;
+    [SerializeField, Range(1, 1024)] int resolution = 16;
     [SerializeField, Range(-0.5f, 0.5f)] float displacement = 0.1f;
     NativeArray<float3x4> positions, normals;
     ComputeBuffer positionBuffer, normalsBuffer;

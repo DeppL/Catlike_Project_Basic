@@ -47,15 +47,15 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 85f42e49b763047ff9f9ee8a59f95938, type: 2}
   shape: 1
   instanceScale: 2
-  resolution: 256
+  resolution: 512
   displacement: 0.1
   noiseSettings:
     seed: 0
-    frequency: 4
+    frequency: 8
     octaves: 1
     lacunarity: 2
     persistence: 0.5
-  type: 0
+  type: 4
   dimensions: 3
   tiling: 0
   domain:

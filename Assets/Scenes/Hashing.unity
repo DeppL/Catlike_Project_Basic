@@ -435,22 +435,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 745064743, guid: 29e5e9b36df7542659b70c3724e32d21, type: 3}
-      propertyPath: type
-      value: 4
-      objectReference: {fileID: 0}
-    - target: {fileID: 745064743, guid: 29e5e9b36df7542659b70c3724e32d21, type: 3}
-      propertyPath: shape
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 745064743, guid: 29e5e9b36df7542659b70c3724e32d21, type: 3}
-      propertyPath: dimensions
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 745064743, guid: 29e5e9b36df7542659b70c3724e32d21, type: 3}
-      propertyPath: resolution
-      value: 298
-      objectReference: {fileID: 0}
     - target: {fileID: 7398239293943625858, guid: 29e5e9b36df7542659b70c3724e32d21, type: 3}
       propertyPath: m_RootOrder
       value: 2
