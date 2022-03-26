@@ -2,6 +2,7 @@ using UnityEngine;
 using Unity.Collections;
 using Unity.Jobs;
 using Unity.Mathematics;
+using UnityEngine.UI;
 
 using static Noise;
 
@@ -17,7 +18,7 @@ public class NoiseVisualization : Visualization
     }
     static int noiseId = Shader.PropertyToID("_Noise");
     NativeArray<float4> noise;
-    ComputeBuffer noiseBuffer;
+    ComputeBuffer? noiseBuffer;
     [SerializeField] Settings noiseSettings = Settings.Default;
     [SerializeField] NoiseType type;
     [SerializeField, Range(1, 3)] int dimensions = 3;
@@ -30,7 +31,7 @@ public class NoiseVisualization : Visualization
     }
     protected override void DisableVisualization() {
         noise.Dispose();
-        noiseBuffer.Release();
+        noiseBuffer?.Release();
         noiseBuffer = null;
     }
     protected override void UpdateVisualization(
@@ -39,7 +40,19 @@ public class NoiseVisualization : Visualization
         noiseJobs[(int)type, 2 * dimensions - (tiling ? 1 : 2)](
             positions, noise, noiseSettings, domain, resolution, handle
         ).Complete();
-        noiseBuffer.SetData(noise.Reinterpret<float>(4 * 4));
+        noiseBuffer?.SetData(noise.Reinterpret<float>(4 * 4));
+    }
+
+    public void ChangeResolution(Slider slider) {
+        if (slider == null) { return; }
+        resolution = (int)slider.value;
+        OnValidate();
+    }
+
+    protected override void Update() {
+        domain.rotation.y += .1f;
+        isDirty = true;
+        base.Update();
     }
 
     static ScheduleDelegate[,] noiseJobs = {

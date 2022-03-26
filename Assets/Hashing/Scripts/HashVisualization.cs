@@ -25,9 +25,9 @@ public class HashVisualization : Visualization
     }
 
     static int hashesId = Shader.PropertyToID("_Hashes");
-    
+
     NativeArray<uint4> hashes;
-    ComputeBuffer hashesBuffer;
+    ComputeBuffer? hashesBuffer;
 
     [SerializeField] int seed;
     [SerializeField] SpaceTRS domain = new SpaceTRS { scale = 8f };
@@ -39,7 +39,7 @@ public class HashVisualization : Visualization
     }
     protected override void DisableVisualization() {
         hashes.Dispose();
-        hashesBuffer.Release();
+        hashesBuffer!.Release();
         hashesBuffer = null;
     }
 
@@ -53,6 +53,6 @@ public class HashVisualization : Visualization
                 domainTRS = domain.Matrix
             }.ScheduleParallel(hashes.Length, resolution, handle).Complete();
 
-            hashesBuffer.SetData(hashes.Reinterpret<uint>(4 * 4));
+            hashesBuffer!.SetData(hashes.Reinterpret<uint>(4 * 4));
     }
 }

@@ -18,17 +18,17 @@ public abstract class Visualization : MonoBehaviour
         positionsId = Shader.PropertyToID("_Positions"),
         normalsId = Shader.PropertyToID("_Normals"),
         configId = Shader.PropertyToID("_Config");
-    
 
-    [SerializeField] Mesh instanceMesh;
-    [SerializeField] Material material;
+
+    [SerializeField] Mesh? instanceMesh;
+    [SerializeField] Material? material;
     [SerializeField] Shape shape;
-    [SerializeField, Range(0.1f, 10f)] float instanceScale = 2f;
-    [SerializeField, Range(1, 1024)] int resolution = 16;
-    [SerializeField, Range(-0.5f, 0.5f)] float displacement = 0.1f;
+    [SerializeField, Range(0.1f, 10f)] public float instanceScale = 2f;
+    [SerializeField, Range(1, 512)] public int resolution = 16;
+    [SerializeField, Range(-0.5f, 0.5f)] public float displacement = 0.1f;
     NativeArray<float3x4> positions, normals;
-    ComputeBuffer positionBuffer, normalsBuffer;
-    MaterialPropertyBlock propertyBlock;
+    protected ComputeBuffer? positionBuffer, normalsBuffer;
+    MaterialPropertyBlock? propertyBlock;
     Bounds bounds;
 
     public enum Shape { Plane, Sphere, Torns }
@@ -38,8 +38,8 @@ public abstract class Visualization : MonoBehaviour
         Shapes.Job<Shapes.Torus>.ScheduleParallel
     };
 
-    bool isDirty;
-    private void OnEnable() {
+    protected bool isDirty;
+    protected void OnEnable() {
         isDirty = true;
         int length = resolution * resolution;
         length = length / 4 + (length & 1);
@@ -56,23 +56,24 @@ public abstract class Visualization : MonoBehaviour
             resolution, instanceScale / resolution, displacement)
         );
     }
-    private void OnDisable() {
+    protected void OnDisable() {
         positions.Dispose();
         normals.Dispose();
-        positionBuffer.Release();
-        normalsBuffer.Release();
+        positionBuffer!.Release();
+        normalsBuffer!.Release();
         positionBuffer = null;
         normalsBuffer = null;
         DisableVisualization();
     }
-    private void OnValidate() {
+    protected void OnValidate() {
         if (positionBuffer != null && enabled) {
             OnDisable();
             OnEnable();
         }
+
     }
 
-    private void Update() {
+    protected virtual void Update() {
         if (isDirty || transform.hasChanged) {
             isDirty = false;
             transform.hasChanged = false;
@@ -84,8 +85,8 @@ public abstract class Visualization : MonoBehaviour
                 )
             );
 
-            positionBuffer.SetData(positions.Reinterpret<float3>(3 * 4 * 4));
-            normalsBuffer.SetData(normals.Reinterpret<float3>(3 * 4 * 4));
+            positionBuffer!.SetData(positions.Reinterpret<float3>(3 * 4 * 4));
+            normalsBuffer!.SetData(normals.Reinterpret<float3>(3 * 4 * 4));
             bounds = new Bounds(
                 transform.position,
                 float3(2f * cmax(abs(transform.lossyScale)) + displacement)
